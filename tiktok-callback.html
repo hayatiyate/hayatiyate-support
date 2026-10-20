@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>TikTok Authorization — Hayatiyate Scheduler</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="shell callback">
+    <section class="card">
+      <p class="eyebrow">Hayatiyate Scheduler</p>
+      <h1 id="title">TikTok authorization</h1>
+      <p id="message">This page receives TikTok's authorization response. Return to the scheduler setup when authorization is complete.</p>
+      <button id="copy" type="button" hidden>Copy authorization code</button>
+      <p class="small">Never send an authorization code to anyone you do not trust.</p>
+    </section>
+  </main>
+  <script>
+    const params = new URLSearchParams(location.search);
+    const code = params.get("code");
+    const error = params.get("error");
+    const title = document.getElementById("title");
+    const message = document.getElementById("message");
+    const copy = document.getElementById("copy");
+    if (error) {
+      title.textContent = "Authorization was not completed";
+      message.textContent = params.get("error_description") || "TikTok returned an authorization error.";
+    } else if (code) {
+      title.textContent = "Authorization received";
+      message.textContent = "TikTok returned a one-time authorization code. Copy it and return to the scheduler setup.";
+      copy.hidden = false;
+      copy.addEventListener("click", async () => {
+        await navigator.clipboard.writeText(code);
+        copy.textContent = "Copied";
+      });
+    }
+  </script>
+</body>
+</html>
