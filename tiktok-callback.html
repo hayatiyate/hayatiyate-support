@@ -13,8 +13,8 @@
       <p class="eyebrow">Hayatiyate Scheduler</p>
       <h1 id="title">TikTok authorization</h1>
       <p id="message">This page receives TikTok's authorization response. Return to the scheduler setup when authorization is complete.</p>
-      <button id="copy" type="button" hidden>Copy authorization code</button>
-      <p class="small">Never send an authorization code to anyone you do not trust.</p>
+      <button id="copy" type="button" hidden>Copy complete callback address</button>
+      <p class="small">Paste the copied address only into the waiting PowerShell window. Never send it in a message or chat.</p>
     </section>
   </main>
   <script>
@@ -29,11 +29,11 @@
       message.textContent = params.get("error_description") || "TikTok returned an authorization error.";
     } else if (code) {
       title.textContent = "Authorization received";
-      message.textContent = "TikTok returned a one-time authorization code. Copy it and return to the scheduler setup.";
+      message.textContent = "Copy the complete callback address below, then paste it only into the waiting PowerShell window.";
       copy.hidden = false;
       copy.addEventListener("click", async () => {
-        await navigator.clipboard.writeText(code);
-        copy.textContent = "Copied";
+        await navigator.clipboard.writeText(location.href);
+        copy.textContent = "Complete address copied";
       });
     }
   </script>
